@@ -8,3 +8,4 @@ requests
 g4f
 sounddevice
 curl_cffi
+pydub
