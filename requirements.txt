@@ -6,4 +6,4 @@ setuptools
 wikipedia
 beautifulsoup4
 requests
--U g4f
+g4f
