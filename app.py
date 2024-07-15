@@ -1,17 +1,15 @@
 import streamlit as st
-import pyttsx3  # pip install pyttsx3
-import speech_recognition as sr  # pip install SpeechRecognition, PyAudio, setuptools
-import os  # part of standard python library
-import webbrowser  # part of standard python library
-import subprocess  # part of standard python library
-import datetime  # part of standard python library
-import wikipedia  # pip install wikipedia
-import requests  # allows us to use external APIs
-from bs4 import BeautifulSoup  # pip install beautifulsoup4
-import asyncio
-import platform
-from g4f.client import Client  # pip install -U g4f
+import pyttsx3
+import requests
+from bs4 import BeautifulSoup
+import datetime
+import webbrowser
+import wikipedia
+from g4f.client import Client
 from g4f.Provider import You
+import sounddevice as sd
+import numpy as np
+import queue
 
 # Initialize pyttsx3
 engine = pyttsx3.init()
@@ -25,23 +23,6 @@ def say(text):
     st.write(f"🤖: {text}")
     engine.say(text)
     engine.runAndWait()
-
-# Function to take voice commands
-def take_command():
-    r = sr.Recognizer()
-    while True:
-        with sr.Microphone() as source:
-            r.energy_threshold = 10000
-            r.adjust_for_ambient_noise(source, 1.2)
-            say("I am Listening...")
-            audio = r.listen(source)
-            try:
-                query = r.recognize_google(audio)
-                st.write(f"👨: {query}")
-                return query
-            except Exception as e:
-                r = sr.Recognizer()
-                continue
 
 # Streamlit app
 def main():
@@ -108,18 +89,9 @@ def process_query(query):
             response = chat_completion.choices[0].message.content
             say(response)
     elif "shutdown" in query.lower():
-        say("Are you sure?")
-        temp = st.text_input("Confirm shutdown (y/n):")
-        if temp.lower() in ["y", "yes"]:
-            say("Thanks for talking to me")
-            say("Immediate shutdown taking place")
-            os.system("shutdown /s /t 5")
-            say("Exiting now")
-        else:
-            say("I'm ready to talk to you again!")
+        say("Shutdown functionality is not supported on Streamlit Cloud.")
     elif "calculator" in query.lower():
-        say("Opening Calculator")
-        subprocess.Popen("C:\\Windows\\System32\\calc.exe")
+        say("Opening Calculator is not supported on Streamlit Cloud.")
     elif "quit" in query.lower() or "bye" in query.lower():
         say("Thanks for using me. Wishing you a good day ahead!")
     else:
