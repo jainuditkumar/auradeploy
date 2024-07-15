@@ -1,4 +1,4 @@
-import streamlit as st
+import streamlit as st 
 import requests
 from bs4 import BeautifulSoup
 import datetime
@@ -6,18 +6,15 @@ import webbrowser
 import wikipedia
 from g4f.client import Client
 from g4f.Provider import You
-import numpy as np
-import queue
-
-# Initialize pyttsx3
-
+import asyncio
+ 
 
 # Initialize the G4F client
 client = Client(provider=You)
 
 # Function to convert text to speech
 def say(text):
-    st.write(f"🤖: {text}")
+    st.write(f"🤖: {text}") 
 
 # Streamlit app
 def main():
@@ -77,12 +74,15 @@ def process_query(query):
             for result in results:
                 say(result.get_text())
         else:
-            chat_completion = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": query}]
-            )
-            response = chat_completion.choices[0].message.content
-            say(response)
+            try:
+                chat_completion = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": query}]
+                )
+                response = chat_completion.choices[0].message.content
+                say(response)
+            except Exception as e:
+                st.error(f"Error processing query: {e}")
     elif "shutdown" in query.lower():
         say("Shutdown functionality is not supported on Streamlit Cloud.")
     elif "calculator" in query.lower():
@@ -90,12 +90,15 @@ def process_query(query):
     elif "quit" in query.lower() or "bye" in query.lower():
         say("Thanks for using me. Wishing you a good day ahead!")
     else:
-        chat_completion = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": query}]
-        )
-        response = chat_completion.choices[0].message.content
-        say(response)
+        try:
+            chat_completion = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": query}]
+            )
+            response = chat_completion.choices[0].message.content
+            say(response)
+        except Exception as e:
+            st.error(f"Error processing query: {e}")
 
 if __name__ == '__main__':
     main()
