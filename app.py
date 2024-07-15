@@ -1,5 +1,4 @@
 import streamlit as st
-import pyttsx3
 import requests
 from bs4 import BeautifulSoup
 import datetime
@@ -11,8 +10,7 @@ import numpy as np
 import queue
 
 # Initialize pyttsx3
-engine = pyttsx3.init()
-engine.setProperty('rate', 150)
+
 
 # Initialize the G4F client
 client = Client(provider=You)
@@ -20,8 +18,6 @@ client = Client(provider=You)
 # Function to convert text to speech
 def say(text):
     st.write(f"🤖: {text}")
-    engine.say(text)
-    engine.runAndWait()
 
 # Streamlit app
 def main():
