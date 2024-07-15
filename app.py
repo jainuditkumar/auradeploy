@@ -7,7 +7,6 @@ import webbrowser
 import wikipedia
 from g4f.client import Client
 from g4f.Provider import You
-import sounddevice as sd
 import numpy as np
 import queue
 
